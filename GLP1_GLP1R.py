@@ -34,4 +34,8 @@ plt.xlabel("[semaglutide] (nM, log scale)")
 plt.ylabel("Fraction active (Fact)")
 plt.title("GLP1R activation by semaglutide with GLP1 present")
 plt.legend(loc="upper left")
+plt.grid(True, which="both", ls="--", alpha=0.5)
 plt.show()
+
+# Fed GLP1 produces higher activation at low semaglutide concentrations; as semaglutide
+# increases, fasting and fed activation converge as the drug occupies the receptor.
