@@ -61,6 +61,9 @@ def simulate(D, n_doses, interval, dt):
         y_seg[:, 0] = y
         
         # explicit Euler: y[n+1] = y[n] + dt * f(t[n], y[n])
+        #for n in range(n_steps):
+        #    y_seg[:, n + 1] = y_seg[:, n] + dt * np.array(ODEfunc(t_seg[n], y_seg[:, n]))
+
         # integrate using solve_ivp
         solution = solve_ivp(ODEfunc, (t_seg[0], t_seg[-1]), y,
                      t_eval=t_seg)
