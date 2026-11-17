@@ -1,24 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
 
-# ===== choose product: 'Ozempic' or 'Wegovy' =====
-drug = 'Ozempic'
-#drug = 'Wegovy'
+drug = 'Cavalitide'
 
 # product-specific parameters
 products = {
-    'Ozempic': dict(Favailable=0.89,   # bioavailability
-                    ka=0.029,          # 1/h, absorption rate
-                    D=2.0,             # mg per dose
-                    interval=168,      # h between doses (weekly)
-                    n_doses=8,         # number of doses
-                    depot='subcutaneous'),
-    'Wegovy':  dict(Favailable=0.01,
-                    ka=0.0029,
-                    D=25,               # mg
-                    interval=24,       # h between doses (daily)
-                    n_doses=100,
-                    depot='gut (oral)'),
+    'Cavalitide': dict(Favailable=0.01,
+                       ka=0.0006,
+                       D=25,
+                       interval=24,
+                       n_doses=100,
+                       depot='gut (oral)'),
 }
 p = products[drug]
 Favailable, ka, D = p['Favailable'], p['ka'], p['D']
@@ -53,9 +46,14 @@ def simulate(D, n_doses, interval, dt):
         y_seg[:, 0] = y
         
         # explicit Euler: y[n+1] = y[n] + dt * f(t[n], y[n])
-        for n in range(n_steps):
-            y_seg[:, n + 1] = y_seg[:, n] + dt * np.array(ODEfunc(t_seg[n], y_seg[:, n]))
-            
+        #for n in range(n_steps):
+        #    y_seg[:, n + 1] = y_seg[:, n] + dt * np.array(ODEfunc(t_seg[n], y_seg[:, n]))
+
+        # integrate using solve_ivp
+        solution = solve_ivp(ODEfunc, (t_seg[0], t_seg[-1]), y,
+                     t_eval=t_seg)
+        y_seg = solution.y
+           
         t_out.append(t_seg)
         Asc_out.append(y_seg[0])
         Cc_out.append(y_seg[1])
