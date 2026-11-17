@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
 # ===== choose product: 'Ozempic' or 'Wegovy' or 'Cavalitide' =====
-#drug = 'Ozempic'
+drug = 'Ozempic'
 #drug = 'Wegovy'
-drug = 'Cavalitide'
+#drug = 'Cavalitide'
 
 # product-specific parameters
 products = {
